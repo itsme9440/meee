@@ -1,0 +1,57 @@
+// Online Java Compiler
+// Use this editor to write, compile and run your Java code online
+import java.util.*;
+class Main {
+    public static void main(String[] args) {
+        String s="a+b*(c^d-e)^(f+g*h)-i";
+        String res="";
+        HashMap<Character,Integer> hm=new HashMap<>();
+        hm.put('+',1);
+        hm.put('-',1);
+        hm.put('*',2);
+        hm.put('/',2);
+        hm.put('^',3);
+        hm.put('(',-1);
+        int temp=0;
+        Stack<Character> st=new Stack<>();
+        for(char c:s.toCharArray()){
+                System.out.println(st);
+            if(Character.isLetterOrDigit(c))
+            res+=c;
+            else if(c=='(')
+            st.push(c);
+            else if(c==')')
+            {
+                while(st.size()>0)
+                {
+                    if(st.peek()=='('){
+                        st.pop();
+                        break;
+                    }
+                     else
+                     res+=st.pop();
+                }
+            }
+            else{
+                if(st.size()==0)
+                st.push(c);
+                else if(hm.get(st.peek())<hm.get(c))
+                st.push(c);
+                else{
+                    while(st.size()>0){
+                        if(hm.get(st.peek())>=hm.get(c))
+                        res+=st.pop();
+                        else{
+                        break;
+                        }
+                    }
+                    st.push(c);  
+                }
+            }
+        }
+        while(st.size()>0)
+        res+=st.pop();
+         System.out.println(res);
+    }
+   
+}
